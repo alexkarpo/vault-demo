@@ -1,0 +1,23 @@
+# This Dockerfile contains the image specification of our database
+FROM postgres:15
+
+COPY ./certs/server.key /var/lib/postgresql
+COPY ./certs/server.crt /var/lib/postgresql
+
+COPY ./certs/root.crt /var/lib/postgresql
+#COPY ./certs/myCA.crl /var/lib/postgresql
+
+COPY ./ssl-conf.sh /usr/local/bin
+
+# Непустая папка /var/lib/postgresql/data, используемая по умолчании для $PGDATA,
+# для старта "голой" БД в тестах приведёт к ошибке инициализации контейнера
+# Поэтому сертификаты кладём в другое место
+RUN chown postgres:postgres /var/lib/postgresql/server.key /var/lib/postgresql/server.crt /var/lib/postgresql/root.crt && \
+    chmod 600 /var/lib/postgresql/server.key
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+#Testcontainers overrides CMD when creates the container. Can be used for standalone container start up.
+CMD [ "-c", "ssl=on" , "-c", "ssl_cert_file=/var/lib/postgresql/server.crt", "-c",\
+    "ssl_key_file=/var/lib/postgresql/server.key", "-c",\
+    "ssl_ca_file=/var/lib/postgresql/root.crt" ]
