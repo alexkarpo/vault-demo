@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package ru.karpo.testcontainers.model;
 
 import jakarta.persistence.*;
 

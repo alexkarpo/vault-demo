@@ -5,13 +5,12 @@ COPY ./certs/server.key /var/lib/postgresql
 COPY ./certs/server.crt /var/lib/postgresql
 
 COPY ./certs/root.crt /var/lib/postgresql
-#COPY ./certs/myCA.crl /var/lib/postgresql
 
 COPY ./ssl-conf.sh /usr/local/bin
 
 # Непустая папка /var/lib/postgresql/data, используемая по умолчании для $PGDATA,
-# для старта "голой" БД в тестах приведёт к ошибке инициализации контейнера
-# Поэтому сертификаты кладём в другое место
+# при старте "новой" БД в тестах приведёт к ошибке инициализации контейнера.
+# Поэтому сертификаты подкладываются в папку /var/lib/postgresql
 RUN chown postgres:postgres /var/lib/postgresql/server.key /var/lib/postgresql/server.crt /var/lib/postgresql/root.crt && \
     chmod 600 /var/lib/postgresql/server.key
 

@@ -1,6 +1,6 @@
-package com.example.demo.repository;
+package ru.karpo.testcontainers.repository;
 
-import com.example.demo.model.Employee;
+import ru.karpo.testcontainers.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
