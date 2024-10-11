@@ -1,4 +1,4 @@
-package com.example.demo.exceptions;
+package ru.karpo.testcontainers.exceptions;
 
 import java.util.Date;
 
